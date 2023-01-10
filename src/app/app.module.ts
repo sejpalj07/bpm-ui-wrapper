@@ -19,6 +19,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { HomePageComponent } from './home-page/home-page.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
+import { ProcessComponent } from './process/process.component';
 
 
 
@@ -28,6 +29,7 @@ import {MatMenuModule} from '@angular/material/menu';
     LoginComponent,
     SignupComponent,
     HomePageComponent,
+    ProcessComponent,
   ],
   imports: [
     BrowserModule,

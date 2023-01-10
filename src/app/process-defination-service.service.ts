@@ -17,6 +17,15 @@ export class ProcessDefinationServiceService {
       'Content-Type': 'application/json'
     });
     const requestOptions = { headers: headers };
-    return this.http.get<ProcessDefinationModel[]>('http://localhost:8080/custom/processdefination' , requestOptions);
+    return this.http.get<ProcessDefinationModel[]>('http://localhost:8080/custom/processdefination', requestOptions);
+  }
+
+  getDecisionDefinition() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    const requestOptions = { headers: headers };
+    return this.http.get<ProcessDefinationModel[]>('http://localhost:8080/custom/decisiondefinition', requestOptions);
+
   }
 }
