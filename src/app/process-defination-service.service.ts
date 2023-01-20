@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ProcessDefinationModel } from './models/ProcessDefinationModel';
-
+import { TaskListModel } from './models/TaskListModel';
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +28,5 @@ export class ProcessDefinationServiceService {
     return this.http.get<ProcessDefinationModel[]>('http://localhost:8080/custom/decisiondefinition', requestOptions);
 
   }
+
 }

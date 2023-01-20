@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,8 +19,13 @@ import { HomePageComponent } from './home-page/home-page.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
 import { ProcessComponent } from './process/process.component';
-
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CamundaDialogueModelComponent } from './camunda-dialogue-model/camunda-dialogue-model.component';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -30,12 +34,14 @@ import { ProcessComponent } from './process/process.component';
     SignupComponent,
     HomePageComponent,
     ProcessComponent,
+    CamundaDialogueModelComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatDialogModule,
     MatInputModule,
     MatCardModule,
     MatFormFieldModule,
@@ -45,9 +51,17 @@ import { ProcessComponent } from './process/process.component';
     MatGridListModule,
     MatToolbarModule,
     MatTableModule,
-    MatMenuModule
+    MatMenuModule,
+    CommonModule,
+    MatSelectModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    NO_ERRORS_SCHEMA,
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
-export class AppModule { }
+export class AppModule {
+  
+ }

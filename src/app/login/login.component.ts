@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
-
+import { DataService } from '../DataService';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   username: string = "";
   password: string = "";
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router,private DataService:DataService) {
     
   }
 
@@ -30,8 +30,9 @@ export class LoginComponent implements OnInit {
     //   subscribe(data => {
     //     response = data;
     //   })
+    this.DataService.setUserDara(this.username);
     console.log("Response is " + response)
-    this.clear();
+    // this.clear();
     this.router.navigateByUrl('/home');
   }
 
