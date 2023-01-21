@@ -16,6 +16,7 @@ import { MatTableDataSourcePaginator } from '@angular/material/table';
 import { CamundaDialogueModelComponent } from '../camunda-dialogue-model/camunda-dialogue-model.component';
 import { BehaviorSubject } from 'rxjs';
 import { DataService } from '../DataService';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-home-page',
@@ -37,7 +38,7 @@ export class HomePageComponent implements OnInit {
   private ApprovalMsg: string[] = [];
   lastIndexApprovalMsg:string="";
   find: boolean=false;
-  isprocessList: boolean=true;
+  IsTaskList: boolean=true;
   b: boolean=false;
   isTaskList : boolean=false;
   msg: String="";
@@ -49,29 +50,27 @@ export class HomePageComponent implements OnInit {
 
   
 
-  constructor(private processDefinationService: ProcessDefinationServiceService,public dialog: MatDialog, private router: Router,private TaskService:TaskService,private http: HttpClient,private DataService:DataService) {
+  constructor(private processDefinationService: ProcessDefinationServiceService,public dialog: MatDialog, private router: Router,private TaskService:TaskService,private http: HttpClient,private DataService:DataService,private cookie:CookieService) {
     
   }
 
 
   TaskList(){
-    this.displayedColumns=['checkSelect','taskTitle', 'taskCreatedTime', 'camundaUser','groupName','ownerName','priority','getTask'];
-    this.isprocessList=false;
+    this.displayedColumns=['checkSelect','taskTitle', 'taskCreatedTime', 'camundaUser','groupName','priority','unclaim','claim','getTask'];
+    this.IsTaskList=false;
     this.b=false;
    
   }
  ProcessList(){
   this.displayedColumns=['definitionId', 'definitionKey', 'name', 'version', 'versionTag','startProcess'];
-  this.isprocessList=true;
+  this.IsTaskList=true;
   this.b=false;
  }
   
   ngOnInit() {
-    this.postRequestMsg=""
-   this.DataService.selecteUserData$.subscribe(res=>{
-    this.username=res;
-    console.log(this.username);
-   });
+  
+   this.postRequestMsg=""
+   this.username=this.cookie.get("username");
    this.postRequestMsg="{\"camundaUser\": \""+this.username+"\"}";
     this.TaskService.getTaskList(this.postRequestMsg).subscribe(res => {
         this.taskSource = new MatTableDataSource(res);
@@ -90,11 +89,10 @@ export class HomePageComponent implements OnInit {
       })
       console.log(this.groupSource);
     })
-
   }
  
   applyFilter(event: Event) {
-    if(this.isprocessList==true){
+    if(this.IsTaskList==true){
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     }
@@ -115,7 +113,7 @@ export class HomePageComponent implements OnInit {
     this.isTaskList=true;
     this.postRequestMsg=""
     this.postRequestMsg="{\"camundaUser\": \""+this.username+"\"}";
-    this.displayedColumns=['checkSelect','taskTitle', 'taskCreatedTime', 'camundaUser','groupName','ownerName','priority','unclaim','getTask'];
+    this.displayedColumns=['checkSelect','taskTitle', 'taskCreatedTime', 'camundaUser','priority','unclaim','getTask'];
     this.TaskService.getTaskList(this.postRequestMsg).subscribe(res =>{
       this.taskSource=new MatTableDataSource(res);
     })
@@ -132,18 +130,17 @@ export class HomePageComponent implements OnInit {
     this.isTaskList=false;
     this.postRequestMsg=""
     this.postRequestMsg="{\"camundaUser\": \""+this.username+"\"}";
-    this.displayedColumns=['taskTitle', 'taskCreatedTime','groupName', 'ownerName','priority','claim'];
+    this.displayedColumns=['taskTitle', 'taskCreatedTime','groupName','priority','claim'];
     this.TaskService.getGroupTaskList(this.postRequestMsg).subscribe(res=>{
       this.groupSource=new MatTableDataSource(res);
       res.forEach(val=>{
         if(this.UserGroupName.indexOf(val.groupName)== -1)
         this.UserGroupName.push(val.groupName)
       })
-      console.log(res);
     })
-    console.log(this.UserGroupName);
+
     this.source=this.groupSource;
-    console.log(this.source);
+    
   }
 
 
@@ -182,33 +179,33 @@ export class HomePageComponent implements OnInit {
     this.getTaskList;
      console.log(this.postStatus);
     this.ApprovalMsg=[]
+    
   
   }
-  
+  this.cookie.set("a",this.IsTaskList?"true":"false")
+  window.location.reload();
   }
   
   claim(taskid:any){
     this.postRequestMsg="{\"taskId\":\""+taskid+"\",\"camundaUser\":\""+this.username+"\"}";
-  console.log(taskid);
     this.TaskService.claim(this.postRequestMsg).subscribe(res=>{
       alert(res.postStatus);
       this.getTaskList();
       this.getGroupTaskList();
-     
     })
     this.getGroupTaskList();
+    window.location.reload();
   }
 
   unclaim(taskid:any){
     this.postRequestMsg="{\"taskId\":\""+taskid+"\",\"camundaUser\":"+null+"}";
-  console.log(taskid);
     this.TaskService.claim(this.postRequestMsg).subscribe(res=>{
       alert(res.postStatus);
-      this.getGroupTaskList();
       this.getTaskList();
-      
+      this.getGroupTaskList();
     })
     this.getTaskList();
+    window.location.reload();
   }
  
 

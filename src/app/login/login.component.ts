@@ -4,7 +4,7 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { DataService } from '../DataService';
-
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   username: string = "";
   password: string = "";
 
-  constructor(private http: HttpClient, private router: Router,private DataService:DataService) {
+  constructor(private http: HttpClient, private router: Router,private DataService:DataService,private cookie:CookieService) {
     
   }
 
@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
     //   subscribe(data => {
     //     response = data;
     //   })
-    this.DataService.setUserDara(this.username);
+    // this.DataService.setUserDara(this.username);
+    this.cookie.set("username",this.username);
     console.log("Response is " + response)
-    // this.clear();
     this.router.navigateByUrl('/home');
   }
 

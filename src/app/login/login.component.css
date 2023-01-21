@@ -1,6 +1,6 @@
 .example-container mat-form-field+mat-form-field {
   text-align: center;
-  width: auto;
+  width: 700px;
 }
 
 input.example-right-align::-webkit-outer-spin-button,
@@ -18,6 +18,8 @@ input.example-right-align {
 
 .example-form {
   text-align: center;
+  width: 500px;
+
 }
 
 .logIn{

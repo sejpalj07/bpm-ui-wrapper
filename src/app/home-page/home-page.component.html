@@ -4,6 +4,7 @@
   </div>
 
   <div class="topnav-right">
+    {{this.username}}
     <a href="/" mat-icon-button color="warn" aria-label="LogOut button to go home">
       <mat-icon>home</mat-icon></a>
   </div>
@@ -16,14 +17,14 @@
 
     <button mat-stroked-button color="warn" [matMenuTriggerFor]="belowMenu" >Tasks</button>
     <mat-menu #belowMenu="matMenu" yPosition="below">
-      <button mat-menu-item (click)="TaskList()" (click)=" getTaskList()">User Task List</button>
-      <button mat-menu-item (click)="TaskList()" (click)="  getGroupTaskList() ">Group Task List</button>
+      <button mat-menu-item (click)="TaskList()" (click)=" getTaskList()">My Tasks</button>
+      <button mat-menu-item (click)="TaskList()" (click)=" getGroupTaskList()">My Group Tasks</button>
     </mat-menu>
    <!-- Navigate to Task List URL -->
       
   </div>
 
-<div *ngIf="isprocessList">
+<div *ngIf="IsTaskList">
   <mat-form-field appearance="fill">
     <mat-label>Search</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
@@ -72,7 +73,7 @@
     </tr>
   </table>
 </div>
-<div *ngIf="!isprocessList">
+<div *ngIf="!IsTaskList">
   <mat-form-field  *ngIf="isTaskList" appearance="fill">
     <mat-label>Search</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
@@ -93,23 +94,23 @@
       (change)="GetSelected($event,element.taskId,'Plain Value')"></td>
   </ng-container>
   <ng-container matColumnDef="taskTitle">
-    <th mat-header-cell *matHeaderCellDef>TaskTitle</th>
+    <th mat-header-cell *matHeaderCellDef>Task Title</th>
     <td mat-cell *matCellDef="let element">{{element.taskTitle}}</td>
   </ng-container>
   <!-- Position Column -->
   <ng-container matColumnDef="taskCreatedTime">
-    <th mat-header-cell *matHeaderCellDef>TaskCreatedTime</th>
+    <th mat-header-cell *matHeaderCellDef>Task Initiated Time</th>
     <td mat-cell *matCellDef="let element"> {{element.taskCreatedTime}} </td>
   </ng-container>
 
   <!-- Weight Column-->
-  <ng-container matColumnDef="ownerName">
+  <!-- <ng-container matColumnDef="ownerName">
     <th mat-header-cell *matHeaderCellDef>OwnerName</th>
     <td mat-cell *matCellDef="let element"> {{element.ownerName}} </td>
-  </ng-container>
+  </ng-container> -->
 
   <!-- Symbol Column -->
-  <ng-container style="display:none" matColumnDef="groupName" >
+  <ng-container *ngIf="!isTaskList" style="display:none" matColumnDef="groupName" >
     <th mat-header-cell *matHeaderCellDef>Group Name</th>
     <td mat-cell *matCellDef="let element"> {{element.groupName}} </td>
   </ng-container>
@@ -122,11 +123,10 @@
     <th mat-header-cell *matHeaderCellDef>Priority</th>
     <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
   </ng-container> 
-  
   <ng-container *ngIf="!b && isTaskList" matColumnDef="unclaim">
-    <th  mat-header-cell *matHeaderCellDef>Unclaim the task</th>
+    <th  mat-header-cell *matHeaderCellDef>Unclaim</th>
     <td  mat-cell *matCellDef="let element">
-    <button mat-raised-button color="warn"  (click)="unclaim(element.taskId)">unclaim</button> </td>
+    <button mat-raised-button color="warn"  (click)="unclaim(element.taskId)">Unclaim</button> </td>
   </ng-container>
 
   <ng-container *ngIf="!b&&isTaskList" matColumnDef="getTask">
@@ -137,7 +137,7 @@
   <ng-container *ngIf="!b && !isTaskList" matColumnDef="claim">
     <th  mat-header-cell *matHeaderCellDef>Claim</th>
     <td  mat-cell *matCellDef="let element">
-    <button mat-raised-button color="warn"  (click)="claim(element.taskId)">claim</button> </td>
+    <button mat-raised-button color="warn"  (click)="claim(element.taskId)">Claim</button> </td>
   </ng-container>
 
    <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>

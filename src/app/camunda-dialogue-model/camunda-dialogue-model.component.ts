@@ -22,7 +22,6 @@ export class CamundaDialogueModelComponent implements OnInit {
   private ApprovalMsg: string[] = [];
   lastIndexApprovalMsg:string="";
   find: boolean=false;
- 
   msg: String="";
   postStatus: String="";
   postRequestMsg: String="";

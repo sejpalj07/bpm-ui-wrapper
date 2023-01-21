@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { Data } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,7 +27,7 @@ import { CommonModule } from '@angular/common';
 import { CamundaDialogueModelComponent } from './camunda-dialogue-model/camunda-dialogue-model.component';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-
+import { CookieService } from 'ngx-cookie-service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +56,7 @@ import { MatSelectModule } from '@angular/material/select';
     CommonModule,
     MatSelectModule,
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent],
   schemas: [
     NO_ERRORS_SCHEMA,
