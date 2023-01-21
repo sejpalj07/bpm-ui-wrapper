@@ -9,7 +9,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 })
 export class TaskService{
 
-  private serviceUrl = 'http://localhost:8082/request/list';
+  private serviceUrl = 'http://localhost:8080/request/list';
   myData: any;
   constructor(private http: HttpClient) { }
 
@@ -19,7 +19,7 @@ export class TaskService{
     });
     let params= new HttpParams();
     const requestOptions = { headers: headers};
-    return this.http.post<TaskListModel[]>('http://localhost:8082/custom/usertask',requestbody, requestOptions);
+    return this.http.post<TaskListModel[]>('http://localhost:8080/custom/usertask',requestbody, requestOptions);
   }
 
   
@@ -29,7 +29,7 @@ export class TaskService{
     });
     let params= new HttpParams();
     const requestOptions = { headers: headers};
-    return this.http.post<TaskListModel[]>('http://localhost:8082/custom/usergrouptask',requestbody,requestOptions);
+    return this.http.post<TaskListModel[]>('http://localhost:8080/custom/usergrouptask',requestbody,requestOptions);
   }
 
   completeTask(requestbody:any,approvalStatus:any){
@@ -39,7 +39,7 @@ export class TaskService{
     let params= new HttpParams();
     params=params.append('approvalStatus',approvalStatus)
     const requestOptions = { headers: headers ,params: params};
-    return this.http.post<any>('http://localhost:8082/custom/completetask',requestbody,requestOptions);
+    return this.http.post<any>('http://localhost:8080/custom/completetask',requestbody,requestOptions);
   }
 
   claim(requestbody:any){
@@ -48,7 +48,7 @@ export class TaskService{
     });
     let params= new HttpParams();
     const requestOptions = { headers: headers};
-    return this.http.post<any>('http://localhost:8082/custom/claim',requestbody,requestOptions);
+    return this.http.post<any>('http://localhost:8080/custom/claim',requestbody,requestOptions);
   }
 
 
