@@ -49,3 +49,6 @@ table {
   font-weight: bold;
 }
 
+.card-container {
+  justify-content: space-between;
+}

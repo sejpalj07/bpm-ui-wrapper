@@ -28,6 +28,7 @@ import { CamundaDialogueModelComponent } from './camunda-dialogue-model/camunda-
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CookieService } from 'ngx-cookie-service';
+import { ProcessDiagramComponent } from './process-diagram/process-diagram.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +37,7 @@ import { CookieService } from 'ngx-cookie-service';
     HomePageComponent,
     ProcessComponent,
     CamundaDialogueModelComponent,
+    ProcessDiagramComponent,
   ],
   imports: [
     BrowserModule,
