@@ -5,13 +5,15 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { SignupComponent } from './signup/signup.component';
 import { CamundaDialogueModelComponent } from './camunda-dialogue-model/camunda-dialogue-model.component';
 import { ProcessDiagramComponent } from './process-diagram/process-diagram.component';
+import { DelegateDialogueModelComponent } from './delegate-dialogue-model/delegate-dialogue-model.component';
 
 const routes: Routes = [
   { path: '', component:LoginComponent},
   { path: 'signup', component: SignupComponent },
   { path: 'home', component: HomePageComponent },
   { path: 'camundaDialogueModeule',component:CamundaDialogueModelComponent},
-  { path: 'processDiagramDialogue',component:ProcessDiagramComponent}
+  { path: 'processDiagramDialogue',component:ProcessDiagramComponent},
+  {path: 'delegateDialogueModeule',component:DelegateDialogueModelComponent},
 ];
 
 @NgModule({

@@ -29,6 +29,9 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CookieService } from 'ngx-cookie-service';
 import { ProcessDiagramComponent } from './process-diagram/process-diagram.component';
+import { DelegateDialogueModelComponent } from './delegate-dialogue-model/delegate-dialogue-model.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +41,7 @@ import { ProcessDiagramComponent } from './process-diagram/process-diagram.compo
     ProcessComponent,
     CamundaDialogueModelComponent,
     ProcessDiagramComponent,
+    DelegateDialogueModelComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,9 @@ export class DataService {
     selectedapprovlTaskDetails$ = this.approvlTaskDetails$.asObservable();
     private UserData$ = new BehaviorSubject<any>([]);
     selecteUserData$ = this.UserData$.asObservable();
+    private tasdata$ = new BehaviorSubject<any>([]);
+    selectetasdata$ = this.tasdata$.asObservable();
+    
     setProduct(product: any) {
       this.product$.next(product);
     }
@@ -20,4 +23,7 @@ export class DataService {
     setApprovalTaskDetail(approvlTaskDetail: any) {
         this.approvlTaskDetails$.next(approvlTaskDetail);
     }
+    setTaskdata(tasdata: any) {
+      this.tasdata$.next(tasdata);
+  }
 }

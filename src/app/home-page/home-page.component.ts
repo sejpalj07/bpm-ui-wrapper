@@ -18,6 +18,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DataService } from '../DataService';
 import { CookieService } from 'ngx-cookie-service';
 import { ProcessDiagramComponent } from '../process-diagram/process-diagram.component';
+import { DelegateDialogueModelComponent } from '../delegate-dialogue-model/delegate-dialogue-model.component';
 
 @Component({
   selector: 'app-home-page',
@@ -33,6 +34,7 @@ export class HomePageComponent implements OnInit {
   dataSource: any
   taskSource: any
   groupSource: any
+  alltaskSource: any
   currentGroupName: any
   UserGroupName: Array<String> = []
   approvalStatus: string = "";
@@ -42,6 +44,7 @@ export class HomePageComponent implements OnInit {
   IsTaskList: boolean = true;
   b: boolean = false;
   isTaskList: boolean = false;
+  isAllTask:boolean =false;
   msg: String = "";
   postStatus: String = "";
   postRequestMsg: String = "";
@@ -60,15 +63,16 @@ export class HomePageComponent implements OnInit {
   }
 
   TaskList() {
-    this.displayedColumns = ['checkSelect', 'taskTitle', 'taskCreatedTime', 'camundaUser', 'groupName', 'priority', 'unclaim', 'claim', 'getTask'];
+    this.displayedColumns = ['checkSelect', 'taskTitle', 'taskCreatedTime', 'dueDate', 'camundaUser', 'groupName', 'priority', 'unclaim', 'claim', 'getTask','viewProcess','assignedType','delegate'];
     this.IsTaskList = false;
     this.b = false;
-
+    this.isAllTask =false;
   }
   ProcessList() {
     this.displayedColumns = ['definitionId', 'definitionKey', 'name', 'version', 'versionTag', 'startProcess', 'viewProcess'];
     this.IsTaskList = true;
     this.b = false;
+    this.isAllTask =false;
   }
 
   ngOnInit() {
@@ -93,6 +97,11 @@ export class HomePageComponent implements OnInit {
       })
       console.log(this.groupSource);
     })
+    this.TaskService.getAllTaskList().subscribe(res => {
+     this.alltaskSource=new MatTableDataSource(res);
+      console.log(this.alltaskSource);
+    })
+    
   }
 
   applyFilter(event: Event) {
@@ -112,12 +121,24 @@ export class HomePageComponent implements OnInit {
     });
 
   }
+  getAllTaskList() {
+    this.source=""
+    this.isAllTask =true;
+    this.displayedColumns = ['checkSelect', 'taskTitle', 'taskCreatedTime','dueDate',  'camundaUser','groupName','assignedType', 'priority', 'getTask','viewProcess','delegate'];
+    this.TaskService.getAllTaskList().subscribe(res => {
+      this.alltaskSource = new MatTableDataSource(res);
+    })
+    this.source = this.alltaskSource;
+  }
+
 
   getTaskList() {
+    this.source=""
+    this.isAllTask =false;
     this.isTaskList = true;
     this.postRequestMsg = ""
     this.postRequestMsg = "{\"camundaUser\": \"" + this.username + "\"}";
-    this.displayedColumns = ['checkSelect', 'taskTitle', 'taskCreatedTime', 'camundaUser', 'priority', 'unclaim', 'getTask'];
+    this.displayedColumns = ['checkSelect', 'taskTitle', 'taskCreatedTime', 'dueDate', 'camundaUser', 'priority','unclaim', 'getTask','viewProcess'];
     this.TaskService.getTaskList(this.postRequestMsg).subscribe(res => {
       this.taskSource = new MatTableDataSource(res);
     })
@@ -125,16 +146,18 @@ export class HomePageComponent implements OnInit {
   }
 
   groupTaskFilter() {
+
     const filterValue = this.currentGroupName;
     this.source.filter = filterValue.trim().toLowerCase();
   }
 
   getGroupTaskList() {
+    this.isAllTask =false;
     this.currentGroupName = "";
     this.isTaskList = false;
     this.postRequestMsg = ""
     this.postRequestMsg = "{\"camundaUser\": \"" + this.username + "\"}";
-    this.displayedColumns = ['taskTitle', 'taskCreatedTime', 'groupName', 'priority', 'claim'];
+    this.displayedColumns = ['taskTitle', 'taskCreatedTime','dueDate', 'groupName','dueDate', 'priority', 'claim'];
     this.TaskService.getGroupTaskList(this.postRequestMsg).subscribe(res => {
       this.groupSource = new MatTableDataSource(res);
       res.forEach(val => {
@@ -149,6 +172,7 @@ export class HomePageComponent implements OnInit {
 
 
   getDecisionDefinition(definitionId: string) {
+    this.isAllTask =false;
     this.processDefinationService.getDecisionDefinition().subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
     });
@@ -274,5 +298,41 @@ export class HomePageComponent implements OnInit {
         definitionId: definitionId
       }
     });
+  }
+
+  getTaskDefinitionDiagram(definitionId: string) {
+    console.log('taskdefinition' + definitionId);
+    const dialogRef = this.dialog.open(ProcessDiagramComponent, {
+      width: 'auto',
+      data: {
+        definitionId: definitionId
+      }
+    });
+  }
+
+  BulkDelegate(){
+      this.postRequestMsg = "";
+      this.postRequestMsg = this.postRequestMsg + "[";
+      this.ApprovalMsg.forEach(element => {
+        this.postRequestMsg = this.postRequestMsg + element.toString();
+        console.log(element.indexOf(this.lastIndexApprovalMsg));
+        if (element.toString() != this.lastIndexApprovalMsg)
+          this.postRequestMsg = this.postRequestMsg + ',';
+      });
+      this.postRequestMsg = this.postRequestMsg + "]";
+    this.DataService.setTaskdata(this.postRequestMsg);
+    const dialogRef = this.dialog.open(DelegateDialogueModelComponent, {
+      width: '60%',
+    }); 
+  }
+  
+  delegate(taskid: any, e: any, e1: any, msg: any) {
+    console.log(taskid);
+    this.DataService.setProduct(e);
+    e1.target.checked = true;
+    this.GetSelected(e1, taskid, msg);
+    this.BulkDelegate();
+    this.b = false
+    this.ApprovalMsg = []
   }
 }

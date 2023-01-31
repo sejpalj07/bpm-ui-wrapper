@@ -13,4 +13,7 @@ export class TaskListModel {
   taskId: string="";
   camundaVariables = new Array<CamundaVariables>(); 
   camundaUser: String="";
+  processDefId: String="";
+  assignedType: string="";
+
   }

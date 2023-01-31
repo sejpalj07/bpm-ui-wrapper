@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../../../../bpm-ui-wrapper-master"
+		},
+		{
+			"name": "bpm-ui-wrapper",
+			"path": "../../.."
+		}
+	],
+	"settings": {}
+}
